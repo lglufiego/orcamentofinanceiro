@@ -111,7 +111,7 @@
       <button type="button" class="btn btn-primary" style="display: none;" data-bs-toggle="modal" data-bs-target="#erroGravacao">
       </button>
 
-      <!-- Modal -->
+      <!-- Modal Error -->
       <div class="modal fade" id="erroGravacao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -123,7 +123,27 @@
               Existem campos que não foram preenchidos.
             </div>
             <div class="modal-footer">
-              <button type="button"  data-dismiss="modal" class="btn btn-danger">Voltar e corrigir</button>
+              <button type="button" onclick="fecharModal()" data-dismiss="modal" class="btn btn-danger">Voltar e corrigir</button>
+              <!-- fecharModal já que por algum motivo data-dismiss não funciona (?) -->
+            </div>  
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Success-->
+      <div class="modal fade" id="sucessoGravacao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-success" id="exampleModalLabel">Registrado</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Sua despesa foi registrada com sucesso.
+            </div>
+            <div class="modal-footer">
+              <button type="button" onclick="fecharModal2()" data-dismiss="modal" class="btn btn-success">Fechar</button>
+              <!-- fecharModal já que por algum motivo data-dismiss não funciona (?) -->
             </div>  
           </div>
         </div>

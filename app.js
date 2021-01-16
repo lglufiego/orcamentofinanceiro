@@ -9,13 +9,23 @@ class Despesa {
 	}
 
 	validarDados(){
-		for(let i in this){
-			if( this[i] == undefined || this[i] == '' || this[i] == null) {
+		let arr = new Array(this.ano, this.mes, this.dia, this.tipo, this.descricao, this.valor);
+		for (let i = 0; i < arr.length; i++){
+			if ( arr[i] == undefined || arr[i] == '' || arr[i] == null){
 				return false;
 			} else {
 				return true;
 			}
 		}
+
+
+		// for(let i in this){
+		// 	if( this[i] == undefined || this[i] == '' || this[i] == null) {
+		// 		return false;
+		// 	} else {
+		// 		return true;
+		// 	}
+		// }
 	}
 }
 
@@ -49,6 +59,7 @@ class Bd{
 
 let bd = new Bd();
 
+let modalbox = 0;
 
 function cadastrarDespesa() {
 
@@ -64,12 +75,17 @@ function cadastrarDespesa() {
 
 	if(despesa.validarDados()){
 		bd.gravar(despesa);
-		//dialog de sucesso
+		$('#sucessoGravacao').modal('show');
 	} else {
 		$('#erroGravacao').modal('show');
 	}
+}
 	
-
+function fecharModal(){
+	$('#erroGravacao').modal('hide');
+}
+function fecharModal2(){
+	$('#sucessoGravacao').modal('hide');
 }
 
 

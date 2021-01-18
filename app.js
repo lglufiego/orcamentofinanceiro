@@ -106,5 +106,58 @@ function fecharModal2(){
 
 
 function carregaListaDespesas(){
-	bd.recuperarTodosRegistros();
+
+	let despesas = Array();
+
+	despesas = bd.recuperarTodosRegistros();
+
+	var listaDespesas = document.getElementById('listaDespesas');
+
+	// 0 - <td> 15/03/2021 </td> 
+	// 1 - <td> Alimentação </td> 
+	// <td> Compras do mês </td> 
+	// <td> 444.75 </td>
+	
+
+	//percorre array despesa listando de forma dinamica
+	despesas.forEach(function(d){
+		console.log(d);
+	
+	
+		//criando linhas <tr>
+		let linha = listaDespesas.insertRow();
+
+		//criando colunas <td>
+		linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`;
+		linha.insertCell(1).innerHTML = d.tipo;
+		switch(d.tipo){	
+			case '1':
+				linha.insertCell(1).innerHTML = `Alimentação`;
+			break;
+			case '2':
+				linha.insertCell(1).innerHTML = `Educação`;
+			break;
+			case '3':
+				linha.insertCell(1).innerHTML = `Lazer`;
+			break;
+			case '4':
+				linha.insertCell(1).innerHTML = `Saúde`;
+			break;
+			case '5':
+				linha.insertCell(1).innerHTML = `Transporte`;
+			break;
+			case '6':
+				linha.insertCell(1).innerHTML = `Contas`;
+			break;
+			case '7':
+				linha.insertCell(1).innerHTML = `Outros`;
+			break;
+		}
+	
+		linha.insertCell(2).innerHTML = d.descricao;
+		linha.insertCell(3).innerHTML = d.valor;
+
+	})
+	
 }
+

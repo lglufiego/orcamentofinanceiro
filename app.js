@@ -64,6 +64,44 @@ class Bd{
 		return despesas;
 	}
 
+	pesquisar(despesa){
+
+		let despesasFiltradas = Array ();
+		
+		despesasFiltradas = this.recuperarTodosRegistros();
+		
+		
+		//ano
+		if(despesa.ano != ""){
+			despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano)
+		}
+		//mes
+		if(despesa.mes != ""){
+			despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes)
+		}
+		//dia
+		if(despesa.dia != ""){
+			despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia)
+		}
+		//tipo
+		if(despesa.tipo != ""){
+			despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
+		}
+		//descricao
+		if(despesa.descricao != ""){descricao
+			despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
+		}
+		//valor
+		if(despesa.valor != ""){
+			despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor)
+		}
+		console.log(despesasFiltradas);
+		if(despesasFiltradas == ''){
+			alert('Nenhum registro encontrado.');
+		}
+		return despesasFiltradas;
+	}
+
 
 }
 
@@ -105,31 +143,20 @@ function fecharModal2(){
 }
 
 
-function carregaListaDespesas(){
+function carregaListaDespesas(despesas = Array()){
 
-	let despesas = Array();
+	if(despesas.length == 0){
+		despesas = bd.recuperarTodosRegistros();
+	}
 
-	despesas = bd.recuperarTodosRegistros();
+	let listaDespesas = document.getElementById('listaDespesas');
+	listaDespesas.innerHTML = '';
 
-	var listaDespesas = document.getElementById('listaDespesas');
-
-	// 0 - <td> 15/03/2021 </td> 
-	// 1 - <td> Alimentação </td> 
-	// <td> Compras do mês </td> 
-	// <td> 444.75 </td>
-	
-
-	//percorre array despesa listando de forma dinamica
 	despesas.forEach(function(d){
-		console.log(d);
-	
-	
 		//criando linhas <tr>
 		let linha = listaDespesas.insertRow();
-
 		//criando colunas <td>
 		linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`;
-		linha.insertCell(1).innerHTML = d.tipo;
 		switch(d.tipo){	
 			case '1':
 				linha.insertCell(1).innerHTML = `Alimentação`;
@@ -153,11 +180,23 @@ function carregaListaDespesas(){
 				linha.insertCell(1).innerHTML = `Outros`;
 			break;
 		}
-	
 		linha.insertCell(2).innerHTML = d.descricao;
 		linha.insertCell(3).innerHTML = d.valor;
-
 	})
 	
 }
 
+function pesquisarDespesa(){
+	let ano = document.getElementById('ano').value;
+	let mes = document.getElementById('mes').value;
+	let dia = document.getElementById('dia').value;
+	let tipo = document.getElementById('tipo').value;
+	let descricao = document.getElementById('descricao').value;
+	let valor = document.getElementById('valor').value;
+
+	let despesa = new Despesa (ano, mes, dia, tipo, descricao, valor);
+
+	let despesas = bd.pesquisar(despesa);
+
+	carregaListaDespesas(despesas);
+}

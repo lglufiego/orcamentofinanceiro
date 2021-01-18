@@ -10,22 +10,13 @@ class Despesa {
 
 	validarDados(){
 		let arr = new Array(this.ano, this.mes, this.dia, this.tipo, this.descricao, this.valor);
+		let aux = true;
 		for (let i = 0; i < arr.length; i++){
 			if ( arr[i] == undefined || arr[i] == '' || arr[i] == null){
 				return false;
-			} else {
-				return true;
 			}
 		}
-
-
-		// for(let i in this){
-		// 	if( this[i] == undefined || this[i] == '' || this[i] == null) {
-		// 		return false;
-		// 	} else {
-		// 		return true;
-		// 	}
-		// }
+		return aux;
 	}
 }
 
@@ -53,6 +44,25 @@ class Bd{
 		localStorage.setItem('id', id)
 	}
 
+	recuperarTodosRegistros(){
+		let id = localStorage.getItem('id');
+
+		let despesas = new Array();
+		
+		for(let i = 1; i <= id; i++){
+			
+			let despesa = JSON.parse(localStorage.getItem(i));
+
+			if (despesa == null){
+				continue;
+			}
+				despesas.push(despesa);
+			
+			
+			
+		}
+		return despesas;
+	}
 
 
 }
@@ -76,6 +86,12 @@ function cadastrarDespesa() {
 	if(despesa.validarDados()){
 		bd.gravar(despesa);
 		$('#sucessoGravacao').modal('show');
+		document.getElementById("ano").value = ''
+		document.getElementById("mes").value = ''
+		document.getElementById("dia").value = ''
+		document.getElementById("tipo").value = ''
+		document.getElementById("descricao").value = ''
+		document.getElementById("valor").value = ''
 	} else {
 		$('#erroGravacao').modal('show');
 	}
@@ -89,4 +105,6 @@ function fecharModal2(){
 }
 
 
-
+function carregaListaDespesas(){
+	bd.recuperarTodosRegistros();
+}

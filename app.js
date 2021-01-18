@@ -56,7 +56,10 @@ class Bd{
 			if (despesa == null){
 				continue;
 			}
-				despesas.push(despesa);
+
+			despesa.id = i;
+
+			despesas.push(despesa);
 			
 			
 			
@@ -96,12 +99,13 @@ class Bd{
 			despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor)
 		}
 		console.log(despesasFiltradas);
-		if(despesasFiltradas == ''){
-			alert('Nenhum registro encontrado.');
-		}
+		
 		return despesasFiltradas;
 	}
 
+	remover(id){
+		localStorage.removeItem(id);
+	}
 
 }
 
@@ -153,9 +157,9 @@ function carregaListaDespesas(despesas = Array()){
 	listaDespesas.innerHTML = '';
 
 	despesas.forEach(function(d){
-		//criando linhas <tr>
+		//creating rows <tr>
 		let linha = listaDespesas.insertRow();
-		//criando colunas <td>
+		//creating column <td>
 		linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`;
 		switch(d.tipo){	
 			case '1':
@@ -182,6 +186,22 @@ function carregaListaDespesas(despesas = Array()){
 		}
 		linha.insertCell(2).innerHTML = d.descricao;
 		linha.insertCell(3).innerHTML = d.valor;
+
+		//delete button
+		let btn = document.createElement('button')
+		btn.className = 'btn btn-danger';
+		btn.innerHTML = '<i class="fas fa-times"></i>';
+		btn.id = `id_despesa_${d.id}`;
+		btn.onclick = function(){ 
+			//delete expense
+			let id = this.id.replace('id_despesa_', '');
+			bd.remover(id);
+			location.reload();
+			alert(`A despesa "${d.descricao}" de ${d.dia}/${d.mes}/${d.ano} foi removida.`);
+		}
+		linha.insertCell(4).append(btn);
+
+		console.log(d);
 	})
 	
 }
